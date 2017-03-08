@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as mongodb from 'mongodb';
+import * as cors from 'cors';
 import {initializeGraphQL} from "./initialize-graphql";
 import {initializeDatabase} from "./initialize-database";
 import {Logger} from "./logger";
@@ -13,6 +14,7 @@ Logger.info(`Trying to connect to db: ${DB_PATH}`);
 initializeDatabase(DB_PATH).then(() => {
     Logger.info('Successfully connected to db');
     const app = express();
+    app.use(cors());
     initializeGraphQL(app);
     app.listen(PORT, () => {
         Logger.info(`Everything is ok, running on port: ${PORT}`)
